@@ -2,9 +2,9 @@ import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 
-import { bootstrap } from './src/bootstrap';
-
 import { AppNavigator } from 'navigations';
+
+import { bootstrap } from './src/bootstrap';
 
 void (async () => {
   await bootstrap.init();

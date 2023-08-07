@@ -13,3 +13,13 @@ export interface Movie {
   slug?: string;
   title?: string;
 }
+
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
+export interface Genre {
+  [name: string]: Set<string>;
+}
+
+export interface Section {
+  title: string;
+  data: string[];
+}

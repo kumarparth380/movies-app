@@ -31,6 +31,7 @@ export const margins = StyleSheet.create({
   mr48: { marginRight: 48 },
   ml4: { marginLeft: 4 },
   ml8: { marginLeft: 8 },
+  ml12: { marginLeft: 12 },
   ml16: { marginLeft: 16 },
   ml24: { marginLeft: 24 },
   ml32: { marginLeft: 32 },

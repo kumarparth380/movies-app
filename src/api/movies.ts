@@ -1,5 +1,4 @@
 import { httpGet } from 'api';
-
 import { API_URL } from 'constants/gen';
 
 export const fetchMovies = async (search?: string) => {

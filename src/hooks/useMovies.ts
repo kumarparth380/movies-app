@@ -3,13 +3,13 @@ import { useEffect } from 'react';
 import { useStore } from 'store/movies';
 
 const useMovies = () => {
-  const { movies, loading, error, fetchMovies } = useStore();
+  const { loading, error, fetchMovies, getMoviesByGenre } = useStore();
 
   useEffect(() => {
     fetchMovies();
   }, [fetchMovies]);
 
-  return { movies, loading, error };
+  return { loading, error, moviesByGenre: getMoviesByGenre() };
 };
 
 export default useMovies;

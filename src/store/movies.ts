@@ -2,7 +2,7 @@
 import { create } from 'zustand';
 
 import { fetchMovies } from 'api/movies';
-import { Movie } from 'types/movies';
+import { Genre, Movie } from 'types/movies';
 
 interface State {
   movies: Movie[];
@@ -16,9 +16,11 @@ interface State {
   removeFavorite: (id: number) => void;
   fetchMovies: () => void;
   searchMoviesByTitle: (query: string) => void;
+  getMoviesByGenre: () => Array<{ title: string; data: string[] }>;
+  selectMovieById: (id: string) => Movie | undefined;
 }
 
-export const useStore = create<State>((set) => ({
+export const useStore = create<State>((set, get) => ({
   movies: [],
   loading: false,
   error: null,
@@ -59,5 +61,30 @@ export const useStore = create<State>((set) => ({
     } catch (error) {
       set({ searchLoading: false, searchError: 'Error searching movies.' });
     }
+  },
+  selectMovieById: (id: string) => {
+    const { movies } = get();
+    return movies.find((movie) => movie.id === id);
+  },
+  getMoviesByGenre: () => {
+    const { movies } = get();
+    const moviesIdsByGenre = movies.reduce((acc: Genre, movie: Movie) => {
+      movie.genres?.forEach((genreName) => {
+        if (acc[genreName]) {
+          acc[genreName].add(movie.id);
+        } else {
+          acc[genreName] = new Set([movie.id]);
+        }
+
+        return acc;
+      });
+
+      return acc;
+    }, {});
+
+    return Object.entries(moviesIdsByGenre).map(([title, ids]) => ({
+      title,
+      data: Array.from(ids)
+    }));
   }
 }));
