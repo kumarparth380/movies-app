@@ -15,6 +15,7 @@ module.exports = function (api) {
             styles: './src/styles',
             hooks: './src/hooks',
             store: './src/store',
+            helpers: './src/helpers',
             api: './src/api',
             types: './src/types',
             constants: './src/constants'

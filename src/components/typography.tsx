@@ -120,26 +120,3 @@ export const Header = ({
     {children}
   </Text>
 );
-
-export const LargeHeader = ({
-  children,
-  weight = 'regular',
-  color = colors.black,
-  style
-}: TypographyProps) => (
-  <Text testID="header" style={[text.h4, weights[weight], { color }, style]}>
-    {children}
-  </Text>
-);
-
-export const Title = ({
-  children,
-  style,
-  weight = 'regular',
-  color = colors.black,
-  onPress
-}: TypographyProps) => (
-  <Text onPress={onPress} style={[text.h3, weights[weight], { color }, style]}>
-    {children}
-  </Text>
-);

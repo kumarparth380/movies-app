@@ -4,10 +4,9 @@ import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { screenNames } from 'constants/screenNames';
+import HomeStack from 'navigations/home';
 
 import SearchScreen from 'screens/search';
-
-import HomeStack from './home';
 
 const BottomTabNavigator = createBottomTabNavigator();
 

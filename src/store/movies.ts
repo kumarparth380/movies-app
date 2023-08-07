@@ -2,14 +2,16 @@
 import { create } from 'zustand';
 
 import { fetchMovies } from 'api/movies';
-import { Genre, Movie } from 'types/movies';
+import { mergeArrays } from 'helpers';
+import NormalizeMovies from 'store/norm/movies';
+import { Genre, Movie, NormalizedMovies } from 'types/movies';
 
 interface State {
-  movies: Movie[];
+  movies: NormalizedMovies;
   loading: boolean;
   error: string | null;
   favorites: number[];
-  searchedMovies: Movie[];
+  searchedMovies: string[];
   searchLoading: boolean;
   searchError: string | null;
   addFavorite: (id: number) => void;
@@ -20,8 +22,18 @@ interface State {
   selectMovieById: (id: string) => Movie | undefined;
 }
 
+const saveMovies = (state: State, movies: NormalizedMovies) => {
+  const byId = { ...state.movies.byId, ...movies.byId };
+  const allIds = mergeArrays(state.movies.allIds, movies.allIds);
+
+  return {
+    byId,
+    allIds: [...new Set(allIds)]
+  };
+};
+
 export const useStore = create<State>((set, get) => ({
-  movies: [],
+  movies: { allIds: [], byId: {} },
   loading: false,
   error: null,
   favorites: [],
@@ -42,7 +54,9 @@ export const useStore = create<State>((set, get) => ({
     set({ loading: true });
     try {
       const response = await fetchMovies();
-      set({ movies: response?.movies, loading: false, error: null });
+      NormalizeMovies.insertList(response?.movies);
+      const normalizedMovies = NormalizeMovies.getData();
+      set({ movies: normalizedMovies, loading: false, error: null });
     } catch (error) {
       set({ loading: false, error: 'Error fetching movies.' });
     }
@@ -53,8 +67,11 @@ export const useStore = create<State>((set, get) => ({
     try {
       const response = await fetchMovies(query);
 
+      NormalizeMovies.insertList(response?.movies, true);
+      const normalizedMovies = NormalizeMovies.getData();
       set({
-        searchedMovies: response?.movies,
+        searchedMovies: normalizedMovies?.filteredIds || [],
+        movies: saveMovies(get(), normalizedMovies),
         searchLoading: false,
         searchError: null
       });
@@ -64,23 +81,26 @@ export const useStore = create<State>((set, get) => ({
   },
   selectMovieById: (id: string) => {
     const { movies } = get();
-    return movies.find((movie) => movie.id === id);
+    return movies.allIds.includes(id) ? movies.byId[id] : undefined;
   },
   getMoviesByGenre: () => {
     const { movies } = get();
-    const moviesIdsByGenre = movies.reduce((acc: Genre, movie: Movie) => {
-      movie.genres?.forEach((genreName) => {
-        if (acc[genreName]) {
-          acc[genreName].add(movie.id);
-        } else {
-          acc[genreName] = new Set([movie.id]);
-        }
+    const moviesIdsByGenre = Object.values(movies?.byId || {}).reduce(
+      (acc: Genre, movie: Movie) => {
+        movie.genres?.forEach((genreName) => {
+          if (acc[genreName]) {
+            acc[genreName].add(movie.id);
+          } else {
+            acc[genreName] = new Set([movie.id]);
+          }
+
+          return acc;
+        });
 
         return acc;
-      });
-
-      return acc;
-    }, {});
+      },
+      {}
+    );
 
     return Object.entries(moviesIdsByGenre).map(([title, ids]) => ({
       title,

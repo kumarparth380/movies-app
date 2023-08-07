@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { RootStackParamList } from './rootStackParamList';
+import { RootStackParamList } from 'types/rootStackParamList';
 
 export interface RootNavigatorProps {
   initialRoute?: keyof RootStackParamList;

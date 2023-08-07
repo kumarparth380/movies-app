@@ -16,3 +16,15 @@ Setting up eslint, prettier, tsconfig and pre-commit hooks.
 ## Commit #3
 
 - Setup api and data managers with zustand
+
+## Commit #4
+
+- Movies listing and details screen with api.
+- Added navigation service for useful nav utils
+- Added typography component to make text consistent throughout the app.
+
+## Commit #5
+
+- Handled loading and empty states by creating common component for the same.
+- Started normalizing data and saving it in the stores to achieve indexing and handling complex data.
+- Completed home and search screen functionality

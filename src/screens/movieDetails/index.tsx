@@ -6,6 +6,7 @@ import { Feather, FontAwesome } from '@expo/vector-icons';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { screenNames } from 'constants/screenNames';
+import { generateRatingStars } from 'helpers';
 import { navigationService } from 'navigations/navigationService';
 import { useStore } from 'store/movies';
 import { Movie } from 'types/movies';
@@ -15,8 +16,6 @@ import { Body } from 'components/typography';
 import { colors } from 'styles/colors';
 import containers from 'styles/containers';
 import { margins, padding } from 'styles/utils';
-
-import { generateRatingStars } from '../../helpers';
 
 const PREVIEW_IMAGE_WIDTH = 100;
 const PREVIEW_IMAGE_HEIGHT = 150;

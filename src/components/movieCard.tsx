@@ -5,16 +5,13 @@ import { screenNames } from 'constants/screenNames';
 import { navigationService } from 'navigations/navigationService';
 import { useStore } from 'store/movies';
 
+import containers from 'styles/containers';
+
 interface MovieCardProps {
   id: string;
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: 120,
-    height: 180
-  },
   poster: {
     width: '100%',
     height: '100%'
@@ -42,7 +39,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ id }) => {
   );
 
   return (
-    <TouchableOpacity style={styles.container} onPress={handlePress}>
+    <TouchableOpacity style={containers.flex1} onPress={handlePress}>
       <Image style={styles.poster} source={source} />
     </TouchableOpacity>
   );

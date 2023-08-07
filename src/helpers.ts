@@ -18,3 +18,24 @@ export const generateRatingStars = (rating?: number) => {
 
   return stars.map((name, index) => ({ name, id: index }));
 };
+
+export const keyExtractor = (id: string) => id;
+
+export const genresKeyExtractor = (item: { title: string }) => item.title;
+
+// merge N arrays into a single array with no duplicates
+export function mergeArrays<T>(...arrays: Array<T[] | undefined>): T[] {
+  let jointArray: T[] = [];
+
+  arrays.forEach((array) => {
+    if (array) {
+      jointArray = [...jointArray, ...array];
+    }
+  });
+
+  const uniqueArray: T[] = jointArray.filter(
+    (item, index) => jointArray.indexOf(item) === index
+  );
+
+  return uniqueArray;
+}

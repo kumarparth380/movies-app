@@ -23,3 +23,10 @@ export interface Section {
   title: string;
   data: string[];
 }
+
+export type MoviesById = Record<string, Movie>;
+
+export interface NormalizedMovies {
+  allIds: string[];
+  byId: MoviesById;
+}

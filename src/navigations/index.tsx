@@ -7,9 +7,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { screenNames } from 'constants/screenNames';
 import BottomTabs from 'navigations/bottomTabs';
+import { navigationService } from 'navigations/navigationService';
 import { RootStackParamList } from 'types/rootStackParamList';
-
-import { navigationService } from './navigationService';
 
 const RootStack = createStackNavigator<RootStackParamList>();
 

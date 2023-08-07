@@ -1,29 +1,73 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FlatList, SafeAreaView, Text, TextInput } from 'react-native';
+import { FlatList, StyleSheet, TextInput, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { keyExtractor } from 'helpers';
+import useMoviesSearch from 'hooks/useMoviesSearch';
+
+import { EmptyState } from 'components/emptyState';
+import Loading from 'components/loading';
+import MovieCard from 'components/movieCard';
+import SearchBar from 'components/searchBar';
+import { SubHeader } from 'components/typography';
+import { colors } from 'styles/colors';
 import containers from 'styles/containers';
+import { padding } from 'styles/utils';
 
-import useMoviesSearch from '../../hooks/useMoviesSearch';
+const renderMovieItem = ({ item }: { item: string }) => (
+  <View style={styles.movieCard}>
+    <MovieCard id={item} />
+  </View>
+);
 
 const SearchScreen: React.FC = () => {
+  const safeAreaInsets = useSafeAreaInsets();
   const { t } = useTranslation();
-  const { searchQuery, setSearchQuery, searchedMovies } = useMoviesSearch();
+  const inputRef = React.useRef<TextInput>(null);
+  const { searchQuery, setSearchQuery, searchedMovies, searchLoading } =
+    useMoviesSearch();
+
+  const safeAreaStyle = useMemo(
+    () => ({ flex: 1, paddingTop: safeAreaInsets.top }),
+    [safeAreaInsets]
+  );
+
   return (
-    <SafeAreaView style={containers.centerContent}>
-      <Text>{t('searchScreen')}</Text>
-      <TextInput
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-        placeholder="Search movies"
+    <View style={[styles.container, safeAreaStyle]}>
+      <Loading isLoading={searchLoading} />
+      <SubHeader>{t('search')}</SubHeader>
+      <SearchBar
+        ref={inputRef}
+        search={searchQuery}
+        setSearch={setSearchQuery}
       />
       <FlatList
+        style={[padding.pt16, padding.pb32]}
+        contentContainerStyle={containers.alignCenter}
         data={searchedMovies}
-        renderItem={({ item }) => <Text>{item.id}</Text>}
-        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderMovieItem}
+        keyExtractor={keyExtractor}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={() => (
+          <EmptyState title={t('noResult')} isLoading={searchLoading} />
+        )}
       />
-    </SafeAreaView>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.white,
+    paddingHorizontal: 24
+  },
+  movieCard: {
+    marginBottom: 16,
+    width: 200,
+    height: 300
+  }
+});
 
 export default SearchScreen;
