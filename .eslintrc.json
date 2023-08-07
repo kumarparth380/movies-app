@@ -57,10 +57,10 @@
           [
             "^react", // Ensure that import from 'react' is at the top
             "^next",
-            "^(?!(api|components|hooks|screens|services|styles|types|navigations|constants|[.]+)(/|$))"
+            "^(?!(api|components|hooks|screens|services|styles|types|navigations|store|constants|[.]+)(/|$))"
           ],
           // Everything else
-          ["^(api|hooks|services|types|utils)(/|$)"],
+          ["^(api|hooks|services|types|utils|store)(/|$)"],
           // UI modules
           ["^(screens|components|styles)(/|$)"],
           // Relative imports
@@ -74,6 +74,7 @@
     "no-plusplus": ["off"],
     "react/react-in-jsx-scope": ["off"],
     "@typescript-eslint/no-use-before-define": ["error"],
+    "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/consistent-type-imports": [
       "error",
       {

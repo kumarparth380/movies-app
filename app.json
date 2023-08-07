@@ -14,9 +14,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.WookieMovies"
@@ -31,13 +29,13 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      "expo-localization"
-    ],
+    "plugins": ["expo-localization"],
     "extra": {
       "eas": {
         "projectId": "05cfed23-4de0-4c13-83c3-53e31fd8c6b7"
-      }
+      },
+      "API_URL": "https://wookie.codesubmit.io",
+      "API_KEY": "Bearer Wookie2019"
     }
   }
 }

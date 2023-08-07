@@ -12,3 +12,7 @@ Setting up eslint, prettier, tsconfig and pre-commit hooks.
 - Setup jest and detox for e2e testing. Using Jest + Testing library for unit and integration test.
 - Internationalization setup for multi-lingual support.
 - Common style utils to avoid re-writing styles.
+
+## Commit #3
+
+- Setup api and data managers with zustand
