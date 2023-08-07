@@ -7,7 +7,13 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "prettier:write": "prettier --write '**/*.{ts,tsx,js,jsx,json}'",
+    "prettier:check": "prettier --check .",
+    "lint-staged": "lint-staged --config lint-staged.js",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@types/react": "~18.0.27",
@@ -17,13 +23,28 @@
     "jest-expo": "^48.0.1",
     "react": "18.2.0",
     "react-native": "0.71.3",
-    "typescript": "^4.9.4"
+    "typescript": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@testing-library/jest-native": "^5.4.2",
     "@testing-library/react-native": "^12.0.0-rc.0",
     "@types/jest": "^29.4.0",
+    "@typescript-eslint/eslint-plugin": "^5.52.0",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.10.0",
+    "eslint-config-standard-with-typescript": "^37.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.33.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-native": "^4.0.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
+    "prettier": "^3.0.1",
     "react-test-renderer": "^18.2.0"
   },
   "private": true

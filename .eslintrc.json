@@ -1,0 +1,86 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jest": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "standard-with-typescript",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "react",
+    "react-native",
+    "react-hooks",
+    "@typescript-eslint",
+    "prettier",
+    "simple-import-sort"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "__tests__/**",
+        "e2e/**",
+        "**/*.driver.tsx"
+      ],
+      "rules": { "import/no-extraneous-dependencies": "off" },
+      "env": { "jest": true }
+    }
+  ],
+  "globals": {
+    "window": true,
+    "React": true,
+    "const": true,
+    "fetch": true,
+    "fetchMock": true,
+    "document": true
+  },
+  "rules": {
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "prettier/prettier": ["error"],
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          [
+            "^react", // Ensure that import from 'react' is at the top
+            "^next",
+            "^(?!(api|components|hooks|screens|services|styles|types|navigations|constants|[.]+)(/|$))"
+          ],
+          // Everything else
+          ["^(api|hooks|services|types|utils)(/|$)"],
+          // UI modules
+          ["^(screens|components|styles)(/|$)"],
+          // Relative imports
+          ["^[.]"]
+        ]
+      }
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error",
+    "react/jsx-fragments": ["error", "syntax"],
+    "no-plusplus": ["off"],
+    "react/react-in-jsx-scope": ["off"],
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      {
+        "prefer": "no-type-imports",
+        "disallowTypeAnnotations": true,
+        "fixStyle": "inline-type-imports"
+      }
+    ]
+  }
+}

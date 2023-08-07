@@ -1,0 +1,5 @@
+.history
+.app
+node_modules
+.eslintrc.json
+babel.config.js
