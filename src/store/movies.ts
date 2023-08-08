@@ -4,22 +4,21 @@ import { create } from 'zustand';
 import { fetchMovies } from 'api/movies';
 import { mergeArrays } from 'helpers';
 import NormalizeMovies from 'store/norm/movies';
-import { Genre, Movie, NormalizedMovies } from 'types/movies';
+import { Genre, LoadingState, Movie, NormalizedMovies } from 'types/movies';
 
 interface State {
   movies: NormalizedMovies;
-  loading: boolean;
-  error: string | null;
-  favorites: number[];
+  moviesLoadingState: LoadingState;
+  favorites: Record<string, boolean>;
   searchedMovies: string[];
-  searchLoading: boolean;
-  searchError: string | null;
-  addFavorite: (id: number) => void;
-  removeFavorite: (id: number) => void;
+  searchLoadingState: LoadingState;
+
+  toggleFavorites: (id: string) => void;
   fetchMovies: () => void;
   searchMoviesByTitle: (query: string) => void;
   getMoviesByGenre: () => Array<{ title: string; data: string[] }>;
   selectMovieById: (id: string) => Movie | undefined;
+  selectIsFavoriteMovie: (id: string) => boolean;
 }
 
 const saveMovies = (state: State, movies: NormalizedMovies) => {
@@ -34,36 +33,37 @@ const saveMovies = (state: State, movies: NormalizedMovies) => {
 
 export const useStore = create<State>((set, get) => ({
   movies: { allIds: [], byId: {} },
-  loading: false,
-  error: null,
-  favorites: [],
+  moviesLoadingState: LoadingState.unset,
+  favorites: {},
   searchedMovies: [],
-  searchLoading: false,
-  searchError: null,
+  searchLoadingState: LoadingState.unset,
 
-  addFavorite: (id: number) => {
-    set((state) => ({ favorites: [...state.favorites, id] }));
-  },
-  removeFavorite: (id: number) => {
+  toggleFavorites: (id: string) => {
     set((state) => ({
-      favorites: state.favorites.filter((bId) => bId !== id)
+      favorites: {
+        ...state.favorites,
+        [id]: !state?.favorites?.[id] || false
+      }
     }));
   },
 
   fetchMovies: async () => {
-    set({ loading: true });
+    set({ moviesLoadingState: LoadingState.loading });
     try {
       const response = await fetchMovies();
       NormalizeMovies.insertList(response?.movies);
       const normalizedMovies = NormalizeMovies.getData();
-      set({ movies: normalizedMovies, loading: false, error: null });
+      set({
+        movies: normalizedMovies,
+        moviesLoadingState: LoadingState.success
+      });
     } catch (error) {
-      set({ loading: false, error: 'Error fetching movies.' });
+      set({ moviesLoadingState: LoadingState.failed });
     }
   },
 
   searchMoviesByTitle: async (query: string) => {
-    set({ searchLoading: true });
+    set({ searchLoadingState: LoadingState.loading });
     try {
       const response = await fetchMovies(query);
 
@@ -72,17 +72,20 @@ export const useStore = create<State>((set, get) => ({
       set({
         searchedMovies: normalizedMovies?.filteredIds || [],
         movies: saveMovies(get(), normalizedMovies),
-        searchLoading: false,
-        searchError: null
+        searchLoadingState: LoadingState.success
       });
     } catch (error) {
-      set({ searchLoading: false, searchError: 'Error searching movies.' });
+      set({ searchLoadingState: LoadingState.failed });
     }
   },
+
   selectMovieById: (id: string) => {
     const { movies } = get();
-    return movies.allIds.includes(id) ? movies.byId[id] : undefined;
+    return movies.allIds.includes(id) ? movies.byId?.[id] : undefined;
   },
+
+  selectIsFavoriteMovie: (id: string) => get()?.favorites?.[id] || false,
+
   getMoviesByGenre: () => {
     const { movies } = get();
     const moviesIdsByGenre = Object.values(movies?.byId || {}).reduce(

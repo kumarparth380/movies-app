@@ -43,10 +43,10 @@ const renderGenre = ({ item }: { item: Section }) => (
 
 const HomeScreen: React.FC = () => {
   const { t } = useTranslation();
-  const { moviesByGenre, loading } = useMovies();
+  const { moviesByGenre, moviesLoadingState } = useMovies();
   return (
     <SafeAreaView style={containers.centerContent}>
-      <Loading isLoading={loading} />
+      <Loading loadingState={moviesLoadingState} />
       <Header style={margins.mv8}>{t('appTitle')}</Header>
       <FlatList
         data={moviesByGenre}
@@ -55,7 +55,7 @@ const HomeScreen: React.FC = () => {
         keyExtractor={genresKeyExtractor}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={() => (
-          <EmptyState title={t('noResult')} isLoading={loading} />
+          <EmptyState title={t('noResult')} loadingState={moviesLoadingState} />
         )}
       />
     </SafeAreaView>

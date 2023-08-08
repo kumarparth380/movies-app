@@ -1,30 +1,27 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Feather, FontAwesome } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
+import {
+  BACKDROP_IMAGE_HEIGHT,
+  CONTAINER_HEIGHT,
+  PREVIEW_IMAGE_HEIGHT,
+  PREVIEW_IMAGE_WIDTH
+} from 'constants/gen';
 import { screenNames } from 'constants/screenNames';
 import { generateRatingStars } from 'helpers';
-import { navigationService } from 'navigations/navigationService';
 import { useStore } from 'store/movies';
 import { Movie } from 'types/movies';
 import { RootStackParamList } from 'types/rootStackParamList';
 
+import Header from 'components/header';
 import { Body } from 'components/typography';
+import MovieDescription from 'screens/movieDetails/components/movieDescription';
 import { colors } from 'styles/colors';
-import containers from 'styles/containers';
-import { margins, padding } from 'styles/utils';
-
-const PREVIEW_IMAGE_WIDTH = 100;
-const PREVIEW_IMAGE_HEIGHT = 150;
-const BACKDROP_IMAGE_HEIGHT = 180;
-
-const CONTAINER_HEIGHT = BACKDROP_IMAGE_HEIGHT + PREVIEW_IMAGE_HEIGHT * 0.5;
 
 const MovieDetailsHeader: React.FC = () => {
-  const { t } = useTranslation();
   const route =
     useRoute<RouteProp<RootStackParamList, screenNames.MovieDetails>>();
   const { id } = route.params;
@@ -34,10 +31,6 @@ const MovieDetailsHeader: React.FC = () => {
   if (!movieData) {
     return null;
   }
-
-  const handleBackPress = () => {
-    navigationService.pop();
-  };
 
   const topInset = insets.top || 0;
 
@@ -52,14 +45,21 @@ const MovieDetailsHeader: React.FC = () => {
     (BACKDROP_IMAGE_HEIGHT - PREVIEW_IMAGE_HEIGHT) * 0.5 +
     topInset;
 
-  const year = movieData?.released_on
-    ? new Date(movieData.released_on).getFullYear()
-    : '???';
+  const {
+    imdb_rating: imdbRating,
+    backdrop,
+    overview,
+    released_on: released,
+    poster,
+    cast,
+    director,
+    length
+  } = movieData || {};
 
   return (
     <View style={[styles.container, { minHeight: containerHeight }]}>
       <Image
-        source={{ uri: movieData?.backdrop }}
+        source={{ uri: backdrop }}
         style={[
           styles.backdropImage,
           {
@@ -68,60 +68,33 @@ const MovieDetailsHeader: React.FC = () => {
         ]}
       />
 
-      <TouchableOpacity
-        onPress={handleBackPress}
-        style={[styles.backIconContainer, { top: insets.top + 10 }]}
-      >
-        <Feather name="chevron-left" color="white" size={26} />
-      </TouchableOpacity>
+      <Header id={id} />
+
       <View style={styles.titleContainer}>
         <Body color={colors.white}>{titleLabel}</Body>
       </View>
       <View style={styles.rating}>
-        {generateRatingStars(movieData.imdb_rating).map(
-          ({ name, id: starId }) => (
-            <FontAwesome key={starId} name={name} size={20} color="orange" />
-          )
-        )}
+        {generateRatingStars(imdbRating)?.map(({ name, id: starId }) => (
+          <FontAwesome key={starId} name={name} size={20} color="orange" />
+        ))}
       </View>
-      <View
-        style={[
-          padding.ph24,
-          containers.flex1,
-          {
-            marginTop: PREVIEW_IMAGE_HEIGHT * 0.5 + 8
-          }
-        ]}
-      >
-        <Body>
-          {year} | {movieData?.length} | {movieData?.director}
-        </Body>
 
-        <Body style={margins.mt16}>
-          {t('movieDetailsScreen.cast')}: {movieData?.cast?.join(', ')}
-        </Body>
+      <MovieDescription
+        overview={overview}
+        cast={cast}
+        director={director}
+        length={length}
+        released={released}
+      />
 
-        <Body style={margins.mt16}>{movieData?.overview}</Body>
-      </View>
       <View style={[styles.posterContainer, { top: movieCardTopOffset }]}>
-        <Image source={{ uri: movieData?.poster }} style={styles.posterImage} />
+        <Image source={{ uri: poster }} style={styles.posterImage} />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  backIconContainer: {
-    zIndex: 2,
-    position: 'absolute',
-    left: 20,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    height: 30,
-    width: 30,
-    borderRadius: 15,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
   container: {
     flex: 1,
     width: '100%'

@@ -4,7 +4,7 @@ import { useStore } from 'store/movies';
 
 const useMoviesSearch = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const { searchedMovies, searchLoading, searchError, searchMoviesByTitle } =
+  const { searchedMovies, searchLoadingState, searchMoviesByTitle } =
     useStore();
 
   useEffect(() => {
@@ -13,8 +13,7 @@ const useMoviesSearch = () => {
 
   return {
     searchedMovies,
-    searchLoading,
-    searchError,
+    searchLoadingState,
     searchQuery,
     setSearchQuery
   };

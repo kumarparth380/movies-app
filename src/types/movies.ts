@@ -30,3 +30,10 @@ export interface NormalizedMovies {
   allIds: string[];
   byId: MoviesById;
 }
+
+export enum LoadingState {
+  unset = 'unset',
+  loading = 'loading',
+  success = 'success',
+  failed = 'failed'
+}

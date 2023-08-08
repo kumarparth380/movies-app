@@ -4,6 +4,8 @@ import { StatusBar } from 'expo-status-bar';
 
 import { AppNavigator } from 'navigations';
 
+import ErrorBoundary from 'components/errorBoundary';
+
 import { bootstrap } from './src/bootstrap';
 
 void (async () => {
@@ -12,9 +14,11 @@ void (async () => {
 
 export default function App() {
   return (
-    <SafeAreaProvider>
-      <StatusBar />
-      <AppNavigator />
-    </SafeAreaProvider>
+    <ErrorBoundary>
+      <SafeAreaProvider>
+        <StatusBar />
+        <AppNavigator />
+      </SafeAreaProvider>
+    </ErrorBoundary>
   );
 }

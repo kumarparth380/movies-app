@@ -7,6 +7,8 @@ import {
 } from 'types/navigations';
 import { RootStackParamList } from 'types/rootStackParamList';
 
+import { colors } from 'styles/colors';
+
 /*
     Return the same instance always(closures)
     Else you'll get Maximum update depth errors
@@ -25,7 +27,6 @@ const getRoutesList = (
         key={route}
         name={route}
         component={component}
-        options={{ animationEnabled: false }}
         initialParams={initialParams}
       />
     );
@@ -44,8 +45,10 @@ const stackRoutesGenerator = (stackConfig: NavigationGenerationConfig) => {
         screenOptions={{
           headerShown: false,
           headerStyle: {
-            backgroundColor: '#fff'
-          }
+            backgroundColor: colors.white
+          },
+          animationEnabled: true,
+          gestureDirection: 'horizontal'
         }}
       >
         {routesList()}

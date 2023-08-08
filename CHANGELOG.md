@@ -28,3 +28,9 @@ Setting up eslint, prettier, tsconfig and pre-commit hooks.
 - Handled loading and empty states by creating common component for the same.
 - Started normalizing data and saving it in the stores to achieve indexing and handling complex data.
 - Completed home and search screen functionality
+
+## Commit #6
+
+- Added ErrorBoundary to catch errors anywhere in its child component tree, log those errors, and displays a fallback UI instead of the app crash.
+- Completed favorites features using zustand state.
+- Refactoring loading/error states.

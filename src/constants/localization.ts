@@ -7,7 +7,8 @@ const en = {
   movieDetailsScreen: {
     cast: 'Cast'
   },
-  noResult: 'No result found!'
+  noResult: 'No result found!',
+  errorText: 'Something went wrong!'
 };
 
 export { en };

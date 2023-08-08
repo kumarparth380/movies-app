@@ -25,7 +25,7 @@ const SearchScreen: React.FC = () => {
   const safeAreaInsets = useSafeAreaInsets();
   const { t } = useTranslation();
   const inputRef = React.useRef<TextInput>(null);
-  const { searchQuery, setSearchQuery, searchedMovies, searchLoading } =
+  const { searchQuery, setSearchQuery, searchedMovies, searchLoadingState } =
     useMoviesSearch();
 
   const safeAreaStyle = useMemo(
@@ -35,7 +35,7 @@ const SearchScreen: React.FC = () => {
 
   return (
     <View style={[styles.container, safeAreaStyle]}>
-      <Loading isLoading={searchLoading} />
+      <Loading loadingState={searchLoadingState} />
       <SubHeader>{t('search')}</SubHeader>
       <SearchBar
         ref={inputRef}
@@ -50,7 +50,7 @@ const SearchScreen: React.FC = () => {
         keyExtractor={keyExtractor}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={() => (
-          <EmptyState title={t('noResult')} isLoading={searchLoading} />
+          <EmptyState title={t('noResult')} loadingState={searchLoadingState} />
         )}
       />
     </View>
