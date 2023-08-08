@@ -1,4 +1,8 @@
 import NormMovies from 'store/norm/movies';
+import MockedMovies from 'testutils/mockedMovies.json';
+import { Movie } from 'types/movies';
+
+const movies = MockedMovies.movies as Movie[];
 
 describe('NormMovies', () => {
   beforeEach(() => {
@@ -19,12 +23,6 @@ describe('NormMovies', () => {
   });
 
   it('inserts a list of movies', () => {
-    const movies = [
-      { id: '1', title: 'Movie 1' },
-      { id: '2', title: 'Movie 2' },
-      { id: '3', title: 'Movie 3' }
-    ];
-
     NormMovies.insertList(movies, false);
 
     const data = NormMovies.getData();
@@ -46,12 +44,6 @@ describe('NormMovies', () => {
   });
 
   it('inserts a list of movies with filtering', () => {
-    const movies = [
-      { id: '1', title: 'Filtered Movie 1' },
-      { id: '2', title: 'Filtered Movie 2' },
-      { id: '3', title: 'Filtered Movie 3' }
-    ];
-
     NormMovies.insertList(movies, true);
 
     const data = NormMovies.getData();
@@ -61,12 +53,6 @@ describe('NormMovies', () => {
   });
 
   it('clears the filteredIds when inserting a list without filtering', () => {
-    const movies = [
-      { id: '1', title: 'Filtered Movie 1' },
-      { id: '2', title: 'Filtered Movie 2' },
-      { id: '3', title: 'Filtered Movie 3' }
-    ];
-
     NormMovies.insertList(movies, true);
     NormMovies.insertList(movies, false);
 

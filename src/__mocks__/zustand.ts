@@ -1,28 +1,33 @@
-// import { act } from '@testing-library/react-native';
-// import * as zustand from 'zustand';
+import { act } from '@testing-library/react-native';
+import { create as actualCreate } from 'zustand';
 
-// const { create: actualCreate } = jest.requireActual<typeof zustand>('zustand');
+// a variable to hold reset functions for all stores declared in the app
+const storeResetFns = new Set();
+const extension = {
+  subscribe: jest.fn(() => {
+    return () => {};
+  }),
+  unsubscribe: jest.fn(),
+  send: jest.fn(),
+  init: jest.fn(),
+  error: jest.fn()
+};
+const extensionConnector = { connect: jest.fn(() => extension) };
+(window as any).__REDUX_DEVTOOLS_EXTENSION__ = extensionConnector;
 
-// // a variable to hold reset functions for all stores declared in the app
-// export const storeResetFns = new Set<() => void>();
+// when creating a store, we get its initial state, create a reset function and add it in the set
+const create = (createState: any) => {
+  const store = actualCreate<any>(createState);
+  const initialState = store.getState();
+  storeResetFns.add(() => store.setState(initialState, true));
+  return store;
+};
 
-// // when creating a store, we get its initial state, create a reset function and add it in the set
-// export const create = (<T>() => {
-//   return (stateCreator: zustand.StateCreator<T>) => {
-//     const store = actualCreate(stateCreator);
-//     const initialState = store.getState();
-//     storeResetFns.add(() => {
-//       store.setState(initialState, true);
-//     });
-//     return store;
-//   };
-// }) as typeof zustand.create;
+// Reset all stores after each test run
+afterEach(() => {
+  act(() => {
+    storeResetFns.forEach((resetFn: any) => resetFn());
+  });
+});
 
-// // reset all stores after each test run
-// afterEach(() => {
-//   act(() => {
-//     storeResetFns.forEach((resetFn) => {
-//       resetFn();
-//     });
-//   });
-// });
+export { create };

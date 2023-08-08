@@ -1,24 +1,22 @@
-import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Dimensions, View } from 'react-native';
 
 import { LoadingState } from 'types/movies';
 
+import { ErrorUI } from 'components/errorBoundary';
 import { colors } from 'styles/colors';
 import containers from 'styles/containers';
-
-import { EmptyState } from './emptyState';
 
 interface Props {
   loadingState: LoadingState;
 }
 
 const Loading = ({ loadingState }: Props) => {
-  const { t } = useTranslation();
   const { width, height } = Dimensions.get('window');
   const loadingViewSizes = { height, width };
   if (loadingState === LoadingState.loading)
     return (
       <View
+        testID="loading-container"
         style={[
           containers.centerContent,
           containers.positionAbsolute,
@@ -29,8 +27,7 @@ const Loading = ({ loadingState }: Props) => {
       </View>
     );
 
-  if (loadingState === LoadingState.failed)
-    return <EmptyState title={t('noResult')} loadingState={loadingState} />;
+  if (loadingState === LoadingState.failed) return <ErrorUI />;
 
   return null;
 };

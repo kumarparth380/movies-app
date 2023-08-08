@@ -45,7 +45,7 @@ const HomeScreen: React.FC = () => {
   const { t } = useTranslation();
   const { moviesByGenre, moviesLoadingState } = useMovies();
   return (
-    <SafeAreaView style={containers.centerContent}>
+    <SafeAreaView style={containers.centerContent} testID="HomeScreen">
       <Loading loadingState={moviesLoadingState} />
       <Header style={margins.mv8}>{t('appTitle')}</Header>
       <FlatList

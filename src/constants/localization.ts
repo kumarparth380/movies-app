@@ -8,7 +8,7 @@ const en = {
     cast: 'Cast'
   },
   noResult: 'No result found!',
-  errorText: 'Something went wrong!'
+  errorText: 'Something went wrong, please try again or restart the app'
 };
 
 export { en };

@@ -34,3 +34,8 @@ Setting up eslint, prettier, tsconfig and pre-commit hooks.
 - Added ErrorBoundary to catch errors anywhere in its child component tree, log those errors, and displays a fallback UI instead of the app crash.
 - Completed favorites features using zustand state.
 - Refactoring loading/error states.
+
+## Commit #7
+
+- Added integration tests for core app functionality and some tests for zustand store by fixing the mock for zustand.
+- Added debounce to search api.

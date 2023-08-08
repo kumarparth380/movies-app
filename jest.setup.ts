@@ -15,3 +15,9 @@ jest.mock('react-i18next', () => ({
     };
   }
 }));
+
+jest.mock('@expo/vector-icons', () => ({
+  Feather: '',
+  FontAwesome: '',
+  MaterialIcons: ''
+}));

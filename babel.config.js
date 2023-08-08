@@ -16,6 +16,7 @@ module.exports = function (api) {
             hooks: './src/hooks',
             store: './src/store',
             helpers: './src/helpers',
+            testutils: './src/testutils',
             api: './src/api',
             types: './src/types',
             constants: './src/constants'

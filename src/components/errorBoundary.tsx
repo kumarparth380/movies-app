@@ -4,9 +4,8 @@ import { View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
 import { SubHeader } from 'components/typography';
-import { colors } from 'styles/colors';
 import containers from 'styles/containers';
-import { margins } from 'styles/utils';
+import { margins, padding } from 'styles/utils';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -20,15 +19,16 @@ export const ErrorUI: React.FC = () => {
   const { t } = useTranslation();
   return (
     <View
+      testID="error-boundary-ui"
       style={[
         containers.fullWidth,
         containers.fullHeight,
         containers.center,
-        { backgroundColor: colors.white }
+        padding.p32
       ]}
     >
       <Feather name="frown" size={24} color="black" />
-      <SubHeader weight="bold" style={margins.mt16}>
+      <SubHeader weight="bold" style={[margins.mt16, { textAlign: 'center' }]}>
         {t('errorText')}
       </SubHeader>
     </View>

@@ -49,7 +49,11 @@ const MovieCard: React.FC<MovieCardProps> = ({ id }) => {
   );
 
   return (
-    <TouchableOpacity style={containers.flex1} onPress={handlePress}>
+    <TouchableOpacity
+      testID={movieData?.title}
+      style={containers.flex1}
+      onPress={handlePress}
+    >
       <Image style={styles.poster} source={source} />
       <View style={styles.favoriteContainer}>
         {isFavorite ? (

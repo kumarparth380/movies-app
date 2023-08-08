@@ -57,11 +57,11 @@
           [
             "^react", // Ensure that import from 'react' is at the top
             "^next",
-            "^(?!(api|components|hooks|screens|services|styles|types|navigations|store|constants|helpers|[.]+)(/|$))"
+            "^(?!(api|components|hooks|screens|services|styles|types|navigations|store|constants|helpers|testutils|[.]+)(/|$))"
           ],
           // Everything else
           [
-            "^(api|hooks|services|types|utils|store|constants|navigations|helpers)(/|$)"
+            "^(api|hooks|services|types|utils|store|constants|navigations|helpers|testutils)(/|$)"
           ],
           // UI modules
           ["^(screens|components|styles)(/|$)"],

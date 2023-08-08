@@ -46,6 +46,7 @@ const MovieDetailsHeader: React.FC = () => {
     topInset;
 
   const {
+    title,
     imdb_rating: imdbRating,
     backdrop,
     overview,
@@ -57,7 +58,10 @@ const MovieDetailsHeader: React.FC = () => {
   } = movieData || {};
 
   return (
-    <View style={[styles.container, { minHeight: containerHeight }]}>
+    <View
+      testID={`MovieDetailsScreen-${title as string}`}
+      style={[styles.container, { minHeight: containerHeight }]}
+    >
       <Image
         source={{ uri: backdrop }}
         style={[
