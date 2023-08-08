@@ -1,7 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, StyleSheet, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 
 import { keyExtractor } from 'helpers';
 import useMoviesSearch from 'hooks/useMoviesSearch';
@@ -22,6 +23,7 @@ const renderMovieItem = ({ item }: { item: string }) => (
 );
 
 const SearchScreen: React.FC = () => {
+  const navigation = useNavigation();
   const safeAreaInsets = useSafeAreaInsets();
   const { t } = useTranslation();
   const inputRef = React.useRef<TextInput>(null);
@@ -32,6 +34,14 @@ const SearchScreen: React.FC = () => {
     () => ({ flex: 1, paddingTop: safeAreaInsets.top }),
     [safeAreaInsets]
   );
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      inputRef.current?.focus();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <View style={[styles.container, safeAreaStyle]}>

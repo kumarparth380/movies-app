@@ -21,13 +21,13 @@ interface FontFamily {
 
 const weights: Weights = {
   bold: { fontFamily: 'bold' },
-  regular: { fontFamily: 'regular' }
+  regular: { fontFamily: 'space-mono' }
 };
 
 interface TypographyProps {
   children: any;
   style?: StyleProp<TextStyle>;
-  weight?: 'regular' | 'bold';
+  weight?: 'space-mono' | 'bold';
   color?: string;
   numberOfLines?: number;
   onPress?: (event: GestureResponderEvent) => void;
@@ -36,7 +36,7 @@ interface TypographyProps {
 export const SubCaption = ({
   children,
   style,
-  weight = 'regular',
+  weight = 'space-mono',
   onPress,
   color = colors.black,
   numberOfLines
@@ -54,7 +54,7 @@ export const SubCaption = ({
 export const Caption = ({
   children,
   style,
-  weight = 'regular',
+  weight = 'space-mono',
   onPress,
   color = colors.black,
   numberOfLines
@@ -72,7 +72,7 @@ export const Caption = ({
 export const Body = ({
   children,
   style,
-  weight = 'regular',
+  weight = 'space-mono',
   onPress,
   color = colors.black,
   numberOfLines
@@ -89,7 +89,7 @@ export const Body = ({
 
 export const SubHeader = ({
   children,
-  weight = 'regular',
+  weight = 'space-mono',
   style,
   color = colors.black,
   onPress,
@@ -107,7 +107,7 @@ export const SubHeader = ({
 
 export const Header = ({
   children,
-  weight = 'regular',
+  weight = 'space-mono',
   color = colors.black,
   style,
   numberOfLines

@@ -6,7 +6,7 @@ import { LoadingState } from 'types/movies';
 
 import { SubHeader } from 'components/typography';
 import containers from 'styles/containers';
-import { padding } from 'styles/utils';
+import { margins, padding } from 'styles/utils';
 
 interface EmptyStateProps {
   title: ReactNode;
@@ -24,7 +24,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       testID="empty-state-container"
     >
       <Feather name="frown" size={24} color="black" />
-      <SubHeader>{title}</SubHeader>
+      <SubHeader style={margins.mt8}>{title}</SubHeader>
     </View>
   );
 };

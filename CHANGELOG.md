@@ -39,3 +39,8 @@ Setting up eslint, prettier, tsconfig and pre-commit hooks.
 
 - Added integration tests for core app functionality and some tests for zustand store by fixing the mock for zustand.
 - Added debounce to search api.
+
+## Commit #8
+
+- Added basic e2e testing with detox + jest.
+- Added custom font and splash screen.
